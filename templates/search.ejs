@@ -1,0 +1,27 @@
+<%- include('includes/head'); %>
+<%- include('includes/navbar'); %>
+<div class="container mt-5">
+    <div class="row mx-auto">
+
+        <% if (data.length > 0)  { %>
+            <% for (let i = 0; i < data.length; i++){ %>
+    <div class="col-xl-4 col-l-4 col-md-6 col-sm-12 d-flex align-items-stretch justify-content-center mb-5">
+        <div class="card w-100">
+            <img src="<%= data[i].bookImg %>" class="card-img-top w-100" alt="<%= data[i].bookName %> Image" style="height: 300px;">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title"><%= data[i].bookName %></h5>
+              <p class="card-text text-truncate"><%= data[i].bookDescription %></p>
+            <a href="/details/<%= data[i].id %>" class="btn btn-primary mt-auto">Go To Book</a>
+
+            </div>
+          </div>
+        </div>
+          <% } %>
+          <% } else { %> 
+            <h2><a href="/add-book">Add Book</a></h2>
+            <% } %>
+
+        </div>
+        </div>
+        <%- include('includes/scripts'); %>
+<%- include('includes/foot'); %>
