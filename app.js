@@ -7,7 +7,7 @@ const { Op, literal, fn, where, col } = require('sequelize');
 // local imports
 
 const sequelize = require('./db/database')
-const PORT = process.env.PORT || 3030
+const PORT = process.env.PORT || 3000
 
 
 // DB Variables

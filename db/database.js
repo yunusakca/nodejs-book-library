@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('sql_training', 'root', '1234', {
-    host: 'localhost',
+const sequelize = new Sequelize('sql7620068', 'sql7620068', '2y5yuY44mQ', {
+    host: 'sql7.freesqldatabase.com',
     dialect: 'mysql'
   });
 
