@@ -1,30 +1,74 @@
 <%- include('includes/head'); %>
 <body>
     <%- include('includes/navbar'); %>
-    <div class="container-lg mt-5">
+    <div class="container mt-5">
         <div class="row">
             <div class="col">
-                <div class="card w-75 mx-auto">
-                    <div class="card-body d-flex">
-                        <div class="mr-4 col-3">
-                            <img src="<%= data.bookImg %>" class="card-img-top w-100" alt="<%= data.bookName %> Image" style="height: 400px;">
-                        </div>
-                        <div class="d-flex flex-column col-9">
-                            <h5 class="card-title"><%= data.bookName %></h5>
-                            <p class="card-text"><%= data.bookDescription %></p>
-                            <p class="card-text">Author: <b><%= data.bookAuthor %></b></p>
-                            <div class="d-flex h-100">
-                                <a href="/book/edit/<%= data.id %>" class="btn btn-primary mt-auto w-25">Edit</a>&nbsp;
-                                <a href="/book/delete/<%= data.id %>" class="btn btn-danger mt-auto w-25">Delete</a>
+                <div class="card mx-auto" id="detailCard">
+                        <div class="card-body d-flex">
+                            <div class="mr-4 col-3">
+                                <img src="<%= data.bookImg %>" class="card-img-top w-100" alt="<%= data.bookName %> Image" style="height: 400px;">
                             </div>
-
+                            <div class="d-flex flex-column col-9">
+                                <h5 class="card-title"><%= data.bookName %></h5>
+                                <p class="card-text"><%= data.bookDescription %></p>
+                                <p class="card-text">Author: <b><%= data.bookAuthor %></b></p>
+                                <div class="d-flex h-100">
+                                    <a href="/book/edit/<%= data.id %>" class="btn btn-primary mt-auto w-25">Edit</a>&nbsp;
+                                    <a href="/book/delete/<%= data.id %>" class="btn btn-danger mt-auto w-25">Delete</a>
+                                </div>
+    
+                            </div>
+    
                         </div>
-
-                    </div>
                   </div>
             </div>
 
         </div>
     </div>
+
+<script>
+var detailCard = document.getElementById('detailCard')
+
+if (window.innerWidth > 1000)  {
+    detailCard.innerHTML = `
+    <div class="card-body d-flex">
+                            <div class="mr-4 col-3">
+                                <img src="<%= data.bookImg %>" class="card-img-top w-100" alt="<%= data.bookName %> Image" style="height: 400px;">
+                            </div>
+                            <div class="d-flex flex-column col-9">
+                                <h5 class="card-title"><%= data.bookName %></h5>
+                                <p class="card-text"><%= data.bookDescription %></p>
+                                <p class="card-text">Author: <b><%= data.bookAuthor %></b></p>
+                                <div class="d-flex h-100">
+                                    <a href="/book/edit/<%= data.id %>" class="btn btn-primary mt-auto w-25">Edit</a>&nbsp;
+                                    <a href="/book/delete/<%= data.id %>" class="btn btn-danger mt-auto w-25">Delete</a>
+                                </div>
+    
+                            </div>
+    
+                        </div>
+                        `
+} else if (window.innerWidth < 1000) {
+    detailCard.innerHTML = `
+    <div class="card-body d-flex flex-column">
+                            <div class="mr-4 col-12">
+                                <img src="<%= data.bookImg %>" class="card-img-top w-100" alt="<%= data.bookName %> Image" style="height: 400px;">
+                            </div>
+                            <div class="d-flex flex-column col-12 mt-2">
+                                <h5 class="card-title"><%= data.bookName %></h5>
+                                <p class="card-text"><%= data.bookDescription %></p>
+                                <p class="card-text">Author: <b><%= data.bookAuthor %></b></p>
+                                <div class="d-flex h-100 justify-content-center">
+                                    <a href="/book/edit/<%= data.id %>" class="btn btn-primary mt-auto w-25">Edit</a>&nbsp;
+                                    <a href="/book/delete/<%= data.id %>" class="btn btn-danger mt-auto w-25">Delete</a>
+                                </div>
+    
+                            </div>
+    
+                        </div>
+    `
+}
+</script>
         <%- include('includes/scripts'); %>
 <%- include('includes/foot'); %>
