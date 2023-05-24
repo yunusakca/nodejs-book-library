@@ -32,6 +32,10 @@ const Book = sequelize.define('Book', {
       type: Sequelize.STRING,
       allowNull: false
     }
+  },
+  {
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci'
   });
 
 const User = sequelize.define('User', {
@@ -39,12 +43,14 @@ const User = sequelize.define('User', {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        unique: true
     },
     
     username: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
 
     password: {
@@ -53,31 +59,13 @@ const User = sequelize.define('User', {
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
-    }
-  });
-
-const Cart = sequelize.define('Cart', {
-    id: {
-        type: Sequelize.INTEGER,
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
+        unique: true
     },
-    
-    username: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-
-    password: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    email: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
+  },
+  {
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci'
   });
 
 module.exports = {
