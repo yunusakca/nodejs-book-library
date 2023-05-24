@@ -1,0 +1,25 @@
+<%- include('includes/head'); %>
+<%- include('includes/navbar'); %>
+<div class="container mt-5">
+    <div class="row mx-auto">
+        <% if (userBooks.length > 0)  { %>
+            <% for (let i = 0; i < userBooks.length; i++){ %>
+    <div class="col-xl-4 col-l-4 col-md-6 col-sm-12 d-flex align-items-stretch justify-content-center mb-5">
+        <div class="card w-100">
+            <img src="<%= userBooks[i].bookImg %>" class="card-img-top w-100" alt="<%= userBooks[i].bookName %> Image" style="height: 300px;">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title"><%= userBooks[i].bookName %></h5>
+              <p class="card-text text-truncate"><%= userBooks[i].bookDescription %></p>
+            <a href="/details/<%= userBooks[i].id %>" class="btn btn-primary mt-auto">Kitabı İncele</a>
+            </div>
+          </div>
+    </div>
+          <% } %>
+          <% } else { %> 
+            <h2>Bu Kullanıcının Bir Kitabı Bulunmamaktadır.</h2>
+            <% } %>
+
+    </div>
+</div>
+        <%- include('includes/scripts'); %>
+<%- include('includes/foot'); %>

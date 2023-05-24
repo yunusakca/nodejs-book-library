@@ -53,8 +53,12 @@ if (window.innerWidth > 1000)  {
                                 <p class="card-text"><%= data.bookDescription %></p>
                                 <p class="card-text">Yazar: <b><%= data.bookAuthor %></b></p>
                                 <div class="d-flex h-100 justify-content-center">
-                                    <a href="/book/edit/<%= data.id %>" class="btn btn-primary mt-auto w-50">Kitabı Düzenle</a>&nbsp;
-                                    <a href="/book/delete/<%= data.id %>" class="btn btn-danger mt-auto w-50">Kitabı Sil</a>
+                                    <% if (session.user_id) { %>
+                                        <% if (userData.id == session.user_id) { %>
+                                            <a href="/book/edit/<%= data.id %>" class="btn btn-primary mt-auto w-50">Kitabı Düzenle</a>&nbsp;
+                                            <a href="/book/delete/<%= data.id %>" class="btn btn-danger mt-auto w-50">Kitabı Sil</a>
+                                        <% } %>
+                                    <% } %>
                                 </div>
     
                             </div>

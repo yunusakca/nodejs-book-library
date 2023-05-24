@@ -17,7 +17,7 @@
                                 <% } %>
                         <% } else { %>
                             <% if (userData.firstName && userData.lastName) { %>
-                                <p><%= userData.firstName %> <%= userData.lastName %></p>
+                                <p><%= userData.firstName %> <%= userData.lastName %> &nbsp;<a href="#" onclick="addName('<%= userData.id %>', '<%= userData.username %>')"><i class="bi bi-pencil-square"></i></a></p>
                             <% } else { %>
                                     <p></p>
                             <% } %>
@@ -39,16 +39,20 @@
                             <a href="#" onclick="addAbout('<%= userData.id %>', '<%= userData.username %>')" id="addAboutBtn">Hakkında Kısmı Ekle</a>
                         <% } %>
                     <% } else { %>
+                      <% if (userData.about) { %>
+                        <p class="lead fw-normal mb-1"><%= userData.about %> &nbsp;<a href="#" onclick="addAbout('<%= userData.id %>', '<%= userData.username %>')"><i class="bi bi-pencil-square"></i></a></p>
+                        <% } else { %>
                         <p></p>
+                        <% } %>
                     <% } %>
                   </div>
                   <div class="d-flex justify-content-between align-items-center mb-4">
                     <p class="lead fw-normal mb-0">Yakın Zamanda Paylaşılan Kitaplar</p>
-                    <p class="mb-0"><a href="#!" class="text-muted">Hepsini Göster</a></p>
+                    <p class="mb-0"><a href="/getBooks/<%= userData.username %>/<%= userData.id %>" class="text-muted">Hepsini Göster</a></p>
                   </div>
                   <div class="row">
                     <% if (userBooks.length > 0)  { %>
-                      <% for (let i = 0; i < 6; i++){ %>
+                      <% for (let i = 0; i < showcaseBooks.length; i++){ %>
                           <div class="col-6 col-xl-4 col-lg-4 col-md-6 d-flex align-items-stretch mb-5">
                               <div class="card w-100">
                                   <img src="<%= userBooks[i].bookImg %>" class="card-img-top w-100" alt="<%= userBooks[i].bookName %> Image" style="height: 200px;">

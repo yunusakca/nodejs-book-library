@@ -52,12 +52,34 @@ app.get('/profile/:username', (req, res) => {
             }
         }
     }).then(async result => {
+        var userBooks = await result[0].getBooks()
+        var showcaseBooks = []
+        var reversedBooks = userBooks.reverse()
+        async function createShowcase () {
+            for (let i = 0; i < reversedBooks.length; i++){
+                showcaseBooks.push(userBooks[i])
+
+        }}
+        await createShowcase()
         res.render('profile', {
             title: 'profil / ' + req.params.username,
             session: req.session,
             userData: result[0],
-            userBooks: await result[0].getBooks()
+            userBooks: userBooks,
+            showcaseBooks: showcaseBooks.slice(0, 6)
          })
+    })
+})
+
+app.get('/getBooks/:username/:id', (req, res) => {
+    User.findByPk(req.params.id).then(async result => {
+        var userBooks = await result.getBooks()
+        res.render('userBooks', {
+            title: 'Kitaplar / ' + result.username,
+            session: req.session,
+            userData: result,
+            userBooks: userBooks.reverse()
+        })
     })
 })
 
@@ -305,7 +327,7 @@ app.get('/', (req, res) => {
 
     Book.findAll().then(data => {
             res.render('index', {
-                data: data,
+                data: data.reverse(),
                 title: "Ana Sayfa",
                 session : req.session
             })
