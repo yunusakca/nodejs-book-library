@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Bookland</a>
+    <a class="navbar-brand" href="/">Kitap Diyarı</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -7,31 +7,31 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/">Ana Sayfa</a>
         </li>
         <% if (session.user_id == undefined) { %>
         <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="/login">Giriş Yap</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/register">Register</a>
+          <a class="nav-link" href="/register">Kayıt Ol</a>
         </li>
         <% } else if (session.user_id) { %>
           <li class="nav-item">
-            <a class="nav-link" href="/add-book">Add Book</a>
+            <a class="nav-link" href="/add-book">Kitap Ekle</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
+            <a class="nav-link" href="/logout">Çıkış Yap</a>
           </li>
           <% } %>
       </ul>
       <% if (session.user_id) { %>
-        <a class="nav-link" href="#"> <%= session.username %> <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/profile/<%= session.username %>"> <%= session.username %> <span class="sr-only">(current)</span></a>
       <% } %>
 
       <form class="form-inline my-2 my-lg-0" action="" method="post" id="searchParamsForm">
-        <input class="form-control mr-sm-2" type="search" placeholder="(Book or Author Name)" aria-label="Search" name="searchParams" id="searchParams">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control mr-sm-2" type="search" placeholder="(Kitap ya da Yazar ismi)" aria-label="Search" name="searchParams" id="searchParams">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Kitap Ara</button>
       </form>
     </div>
   </nav>

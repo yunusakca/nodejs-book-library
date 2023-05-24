@@ -14,7 +14,6 @@ const PORT = process.env.PORT || 3000
 // DB Variables
 
 const Tables = require('./db/tables');
-const { log } = require('console');
 const Book = Tables.Book
 const User = Tables.User
 
@@ -43,18 +42,65 @@ app.set('view engine', 'ejs')
 app.set('views', './templates')
 
 
+
+
+app.get('/profile/:username', (req, res) => {
+    User.findAll({
+        where: {
+            username: {
+                [Op.eq]: req.params.username
+            }
+        }
+    }).then(async result => {
+        res.render('profile', {
+            title: 'profil / ' + req.params.username,
+            session: req.session,
+            userData: result[0],
+            userBooks: await result[0].getBooks()
+         })
+    })
+})
+
+app.post('/profile/addName/:id/:username', (req ,res) => {
+    var firstName = req.body.firstName
+    var lastName = req.body.lastName
+    User.update({
+        firstName: firstName,
+        lastName: lastName
+    }, {
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(() => {
+        res.redirect("/profile/" + req.params.username)
+    })
+})
+
+app.post('/profile/addAbout/:id/:username', (req ,res) => {
+    var about = req.body.about
+    User.update({
+        about: about,
+    }, {
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(() => {
+        res.redirect("/profile/" + req.params.username)
+    })
+})
+
 app.get('/register', (req, res) => {
 
     if(req.session.user_id) {
         res.redirect("/")
     } else {
         res.render('register', {
-            title: "Register",
+            title: "Kayıt Ol",
             session : req.session
         })
     }
-
-
 })
 
 app.post('/register', (req, res) => {
@@ -84,7 +130,7 @@ app.get('/login', (req, res) => {
         res.redirect("/")
     } else {
         res.render('login', {
-            title: "Login",
+            title: "Giriş Yap",
             session : req.session
         })
     }
@@ -105,13 +151,15 @@ app.post('/login', (req, res) => {
         }
     }).then(data => {
         if(data.length == 0) {
-            console.log("Hata.")
+            req.session.loginErr = "Kullanıcı Adı ya da Şifre Hatalı"
+            res.redirect("/login")
         } else if (data[0].username == username && data[0].password == password) {
             req.session.user_id = data[0].id;
             req.session.username = data[0].username;
             res.redirect("/")
         } else {
-            console.log("Hata.")
+            req.session.loginErr = "Kullanıcı Adı ya da Şifre Hatalı"
+            res.redirect("/login")
         }
     })
 
@@ -127,7 +175,7 @@ app.get('/logout', (req, res) => {
 app.get('/add-book', (req, res) => {
     if(req.session.user_id) {
         res.render('add-book', {
-            title: "Add Book",
+            title: "Kitap Ekle",
             session : req.session
         })
     } else {
@@ -142,12 +190,14 @@ app.post('/add-book', (req, res) => {
     var bookDescription = req.body.bDescription
     var bookImg = req.body.bImg
     var bookAuthor = req.body.bAuthor
+    var userID = req.body.userID
     Book.create({ 
         bookName: bookName, 
         bookPrice: bookPrice, 
         bookDescription: bookDescription,
         bookImg: bookImg,
-        bookAuthor: bookAuthor
+        bookAuthor: bookAuthor,
+        UserId: userID
      })
      .then(result => {
         res.redirect('/')
@@ -159,12 +209,20 @@ app.post('/add-book', (req, res) => {
 
 app.get('/details/:pk', (req, res) => {
     Book.findByPk(req.params.pk)
-    .then(results => {
-        res.render('details', {
-            data: results,
-            title: "Homepage",
-            session : req.session
-        })
+    .then(async results => {
+         if(results != null) {
+            res.render('details', {
+                data: results,
+                userData: await User.findByPk(results.UserId),
+                title: results.bookName + " İncele",
+                session : req.session
+            })
+        } else {
+            res.redirect("/")
+        }
+
+        
+
     })
     .catch()
 })
@@ -183,12 +241,17 @@ app.get('/book/delete/:pk', (req, res) => {
 
 app.get('/book/edit/:pk', (req, res) => {
         Book.findByPk(req.params.pk)
-        .then(results => {
-            res.render('edit-book', {
-                data: results,
-                title: "Homepage",
-                session : req.session
-            })
+        .then(async results => {
+            if(await results.UserId == req.session.user_id) {
+                res.render('edit-book', {
+                    data: results,
+                    title: results.bookName + " Düzenle",
+                    session : req.session
+                })
+            } else {
+                res.redirect("/")
+            }
+
         })
         .catch()
 
@@ -201,11 +264,13 @@ app.post('/book/edit/:pk', (req, res) => {
     var bookDescription = req.body.bDescription
     var bookID = req.body.bookID
     var bookAuthor = req.body.bAuthor
+    var bookImg = req.body.bImg
     Book.update({
         bookName: bookName, 
         bookPrice: bookPrice, 
         bookDescription: bookDescription,
         bookAuthor: bookAuthor,
+        bookImg: bookImg
     }, {
         where: {
             id: bookID
@@ -226,7 +291,7 @@ app.post('/search/:name', (req, res) => {
     .then(data => { 
             res.render('search', {
                 data: data,
-                title: "Homepage",
+                title: "Ana Sayfa",
                 session : req.session
         })
 
@@ -241,12 +306,15 @@ app.get('/', (req, res) => {
     Book.findAll().then(data => {
             res.render('index', {
                 data: data,
-                title: "Homepage",
+                title: "Ana Sayfa",
                 session : req.session
             })
     }).catch()
 })
 
+app.use((req, res, next) => {
+    res.status(404).redirect("/")
+  })
 
 sequelize.sync()
 

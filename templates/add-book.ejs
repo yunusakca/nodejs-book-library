@@ -1,24 +1,25 @@
 <%- include('includes/head'); %>
-<body>
     <%- include('includes/navbar'); %>
     <div class="container mt-5">
       <div class="row">
         <div class="col-xl-12 col-md-12 col-sm-12 mx-auto align-center">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Add Book</h5>
+              <h5 class="card-title">Kitap Ekle</h5>
               <form  action="/add-book" method="post" class=" d-flex flex-column">
-              <label for="fname">Book Name:</label>
-              <input type="text" id="fname" name="bName" required>
-              <label for="lname">Book Price:</label>
-              <input type="number" id="lname" name="bPrice" required>
-              <label for="lname">Book Author:</label>
-              <input type="text" id="lname" name="bAuthor" required>
-              <label for="lname">Book Description:</label>
-              <textarea type="text" id="lname" name="bDescription" required></textarea>
-              <label for="lname">Book Cover URL:</label>
-              <input type="text" id="lname" name="bImg" required><br>
+              <label for="fname">Kitabın Adı:</label>
+              <input type="text" id="bName" name="bName" required>
+              <label for="lname">Kitabın Fiyatı:</label>
+              <input type="number" id="bPrice" name="bPrice" required>
+              <label for="lname">Kitabın Yazarı:</label>
+              <input type="text" id="bAuthor" name="bAuthor" required>
+              <label for="lname">Kitabın Açıklaması:</label>
+              <textarea type="text" id="bDescription" name="bDescription" required></textarea>
+              <label for="lname">Kitabın Görsel Bağlantısı (URL):</label>
+              <input type="text" id="bImg" name="bImg" required><br>
+              <input type="text" id="userID" name="userID" required hidden value="<%= session.user_id %>">
               <input type="submit" value="Submit" class="btn btn-primary">
+              
             </form>
             </div>
           </div>

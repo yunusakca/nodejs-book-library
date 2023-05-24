@@ -62,11 +62,28 @@ const User = sequelize.define('User', {
         allowNull: false,
         unique: true
     },
+    firstName: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    lastName: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },    
+    about: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    }
   },
   {
     charset: 'utf8',
     collate: 'utf8_unicode_ci'
   });
+
+User.hasMany(Book)
+Book.belongsTo(User)
+
+sequelize.sync()
 
 module.exports = {
     Book: Book,
